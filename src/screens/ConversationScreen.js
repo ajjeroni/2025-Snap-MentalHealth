@@ -1,10 +1,19 @@
 import { React, useState, useEffect, useCallback } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Platform, Text, SafeAreaView } from "react-native";
+import {
+  StyleSheet,
+  Platform,
+  Text,
+  SafeAreaView,
+  Modal,
+  Pressable,
+  View,
+} from "react-native";
 import BasicChatbot from "../chatbots/BasicChatbot";
 import { supabase } from "../utils/hooks/supabase";
 import { GiftedChat } from "react-native-gifted-chat";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
+
 const CHATBOT_USER_OBJ = {
   // user you are trying to send a message to
   _id: 1,
@@ -23,6 +32,7 @@ export default function ConversationScreen({ route, navigation }) {
   const [loading, setLoading] = useState(true);
   const [conversations, setConversations] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
     fetchConversations();
@@ -47,10 +57,14 @@ export default function ConversationScreen({ route, navigation }) {
         console.error("Error fetching conversations:", error.message);
         return;
       }
-      if (conversations) {
+      if (data && data.length > 0) {
         setConversations(data);
         console.log("DATA", JSON.stringify(data, null, 4));
         setMessages(data[0].messages);
+      } else {
+        setConversations([]);
+        setMessages([]); // or set to a default message if you want
+        console.log("No conversations found.");
       }
     } catch (error) {
       console.error("Error fetching conversations:", error.message);
@@ -66,7 +80,7 @@ export default function ConversationScreen({ route, navigation }) {
     .on(
       "postgres_changes",
       { event: "UPDATE", schema: "public", table: "conversations" },
-      handleInserts,
+      handleInserts
     )
     .subscribe();
 
@@ -91,6 +105,50 @@ export default function ConversationScreen({ route, navigation }) {
   // console.log("MESSAGES", JSON.stringify(messages, null, 4));
   return (
     <SafeAreaView style={styles.container}>
+      <Modal
+        visible={showModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowModal(false)}
+      >
+        <SafeAreaView style={styles.modalContainer}>
+          <Text style={styles.modalHeader}>Welcome to the Conversation!</Text>
+
+          {/* Image Placeholder */}
+          <View style={styles.imagePlaceholder} />
+
+          {/* Capability Buttons */}
+          <Pressable style={styles.capabilityBox}>
+            <Text>Capability 1</Text>
+          </Pressable>
+          <Pressable style={styles.capabilityBox}>
+            <Text>Capability 2</Text>
+          </Pressable>
+          <Pressable style={styles.capabilityBox}>
+            <Text>Capability 3</Text>
+          </Pressable>
+
+          {/* Action Buttons */}
+          <Pressable
+            style={styles.primaryButton}
+            onPress={() => {
+              navigation.navigate("StreaksPetProfile", {});
+              setShowModal(false);
+            }}
+          >
+            <Text style={styles.primaryButtonText}>
+              Take me to my streak pets.
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.secondaryButton}
+            onPress={() => setShowModal(false)}
+          >
+            <Text style={styles.secondaryButtonText}>Maybe later</Text>
+          </Pressable>
+        </SafeAreaView>
+      </Modal>
       {messages && (
         // <Text>{JSON.stringify(messages)}</Text>
         <GiftedChat
@@ -115,5 +173,91 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalText: {
+    backgroundColor: "#fff",
+    padding: 24,
+    borderRadius: 12,
+    fontSize: 18,
+    marginBottom: 16,
+    textAlign: "center",
+  },
+  modalButton: {
+    backgroundColor: "#007AFF",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  modalHeader: {
+    fontSize: 18,
+    fontWeight: "bold",
+    backgroundColor: "#fff",
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+    textAlign: "center",
+  },
+
+  imagePlaceholder: {
+    width: 100,
+    height: 100,
+    backgroundColor: "#ccc",
+    borderRadius: 12,
+    marginBottom: 24,
+  },
+
+  capabilityBox: {
+    backgroundColor: "#fff",
+    padding: 16,
+    borderRadius: 12,
+    width: "80%",
+    alignItems: "center",
+    marginVertical: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+
+  primaryButton: {
+    backgroundColor: "#007AFF",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 24,
+    marginTop: 24,
+  },
+
+  primaryButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+
+  secondaryButton: {
+    backgroundColor: "#fff",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 24,
+    marginTop: 12,
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+
+  secondaryButtonText: {
+    color: "#333",
+    fontWeight: "600",
+    fontSize: 16,
   },
 });
