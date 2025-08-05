@@ -13,6 +13,7 @@ import BasicChatbot from "../chatbots/BasicChatbot";
 import { supabase } from "../utils/hooks/supabase";
 import { GiftedChat } from "react-native-gifted-chat";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
+import Checkbox from 'expo-checkbox';
 
 const CHATBOT_USER_OBJ = {
   // user you are trying to send a message to
@@ -32,7 +33,9 @@ export default function ConversationScreen({ route, navigation }) {
   const [loading, setLoading] = useState(true);
   const [conversations, setConversations] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [showModal, setShowModal] = useState(true);
+  const [onboardingModal, setOnboardingModal] = useState(true);
+  const [surveyModal, setSurveyModal] = useState(false);
+  const [isChecked, setChecked] = useState(false);
 
   useEffect(() => {
     fetchConversations();
@@ -106,10 +109,10 @@ export default function ConversationScreen({ route, navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Modal
-        visible={showModal}
+        visible={onboardingModal}
         transparent={true}
         animationType="slide"
-        onRequestClose={() => setShowModal(false)}
+        onRequestClose={() => setOnboardingModal(false)}
       >
         <SafeAreaView style={styles.modalContainer}>
           <Text style={styles.modalHeader}>Welcome to the Conversation!</Text>
@@ -132,8 +135,10 @@ export default function ConversationScreen({ route, navigation }) {
           <Pressable
             style={styles.primaryButton}
             onPress={() => {
-              navigation.navigate("StreaksPetProfile", {});
-              setShowModal(false);
+              // navigation.navigate("StreaksPetProfile", {});
+              // navigation.navigate("StreaksPetSurvey", {});
+              setOnboardingModal(false);
+              setSurveyModal(true);
             }}
           >
             <Text style={styles.primaryButtonText}>
@@ -143,12 +148,92 @@ export default function ConversationScreen({ route, navigation }) {
 
           <Pressable
             style={styles.secondaryButton}
-            onPress={() => setShowModal(false)}
+            onPress={() => setOnboardingModal(false)}
           >
             <Text style={styles.secondaryButtonText}>Maybe later</Text>
           </Pressable>
         </SafeAreaView>
       </Modal>
+      <SafeAreaView style={styles.container}>
+        <Modal
+          visible={surveyModal}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setSurveyModal(false)}
+        >
+          <SafeAreaView style={styles.reminderOptionsContainer}>
+            <Text style={styles.modalHeader}>What reminders would you like?</Text>
+
+            {/* Capability Buttons */}
+            <Pressable style={styles.reminderButton}>
+              <View style={styles.checkBoxContainer}>
+                <Checkbox
+                  style={styles.checkbox}
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? '#9B870D' : undefined}
+                />
+                <Text style={styles.reminderButtonText}>Drink more water</Text>
+              </View>
+            </Pressable>
+            <Pressable style={styles.reminderButton}>
+              <View style={styles.checkBoxContainer}>
+                <Checkbox
+                  style={styles.checkbox}
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? '#9B870D' : undefined}
+                />
+                <Text style={styles.reminderButtonText}>Take a walk!</Text>
+              </View>
+            </Pressable>
+            <Pressable style={styles.reminderButton}>
+              <View style={styles.checkBoxContainer}>
+                <Checkbox
+                  style={styles.checkbox}
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? '#9B870D' : undefined}
+                />
+                <Text style={styles.reminderButtonText}>Sleep soon!</Text>
+              </View>
+            </Pressable>
+            <Pressable style={styles.reminderButton}>
+              <View style={styles.checkBoxContainer}>
+                <Checkbox
+                  style={styles.checkbox}
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? '#9B870D' : undefined}
+                />
+                <Text style={styles.reminderButtonText}>Take a break</Text>
+              </View>
+            </Pressable>
+            <Pressable style={styles.reminderButton}>
+              <View style={styles.checkBoxContainer}>
+                <Checkbox
+                  style={styles.checkbox}
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? '#9B870D' : undefined}
+                />
+                <Text style={styles.reminderButtonText}>Eat a snack</Text>
+              </View>
+            </Pressable>
+
+            {/* Action Buttons */}
+            <Pressable
+              style={styles.secondaryButton}
+              onPress={() => {
+                navigation.navigate("Conversation", {});
+                setSurveyModal(false);
+              }}
+            >
+              <Text style={styles.secondaryButtonText}>Send goals to friend!</Text>
+            </Pressable>
+          </SafeAreaView>
+        </Modal>
+      </SafeAreaView>
       {messages && (
         // <Text>{JSON.stringify(messages)}</Text>
         <GiftedChat
@@ -208,7 +293,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: "center",
   },
-
   imagePlaceholder: {
     width: 100,
     height: 100,
@@ -259,5 +343,35 @@ const styles = StyleSheet.create({
     color: "#333",
     fontWeight: "600",
     fontSize: 16,
+  },
+  checkBoxContainer: {
+    flexDirection: 'row',
+  },
+  checkbox: {
+    marginRight: 8,
+  },
+  reminderOptionsContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  reminderButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  reminderButton: {
+    backgroundColor: "#10adff",
+    padding: 16,
+    borderRadius: 12,
+    width: "80%",
+    alignItems: "center",
+    marginVertical: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
 });
