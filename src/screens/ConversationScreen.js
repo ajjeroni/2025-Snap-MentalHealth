@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Modal,
   Pressable,
+  Image,
   View,
 } from "react-native";
 import BasicChatbot from "../chatbots/BasicChatbot";
@@ -35,7 +36,7 @@ export default function ConversationScreen({ route, navigation }) {
   const [messages, setMessages] = useState([]);
   const [onboardingModal, setOnboardingModal] = useState(true);
   const [surveyModal, setSurveyModal] = useState(false);
-  const [isChecked, setChecked] = useState(false);
+  const [isChecked, setChecked] = useState([false, false, false, false, false]);
 
   useEffect(() => {
     fetchConversations();
@@ -135,14 +136,12 @@ export default function ConversationScreen({ route, navigation }) {
           <Pressable
             style={styles.primaryButton}
             onPress={() => {
-              // navigation.navigate("StreaksPetProfile", {});
-              // navigation.navigate("StreaksPetSurvey", {});
               setOnboardingModal(false);
               setSurveyModal(true);
             }}
           >
             <Text style={styles.primaryButtonText}>
-              Take me to my streak pets.
+              Pick out your reminders!
             </Text>
           </Pressable>
 
@@ -169,8 +168,12 @@ export default function ConversationScreen({ route, navigation }) {
               <View style={styles.checkBoxContainer}>
                 <Checkbox
                   style={styles.checkbox}
-                  value={isChecked}
-                  onValueChange={setChecked}
+                  value={isChecked[0]}
+                  onValueChange={() => {
+                    const updated = [...isChecked];
+                    updated[0] = !isChecked[0]
+                    setChecked(updated)
+                  }}
                   color={isChecked ? '#9B870D' : undefined}
                 />
                 <Text style={styles.reminderButtonText}>Drink more water</Text>
@@ -180,8 +183,12 @@ export default function ConversationScreen({ route, navigation }) {
               <View style={styles.checkBoxContainer}>
                 <Checkbox
                   style={styles.checkbox}
-                  value={isChecked}
-                  onValueChange={setChecked}
+                  value={isChecked[1]}
+                  onValueChange={() => {
+                    const updated = [...isChecked];
+                    updated[1] = !isChecked[1]
+                    setChecked(updated)
+                  }}
                   color={isChecked ? '#9B870D' : undefined}
                 />
                 <Text style={styles.reminderButtonText}>Take a walk!</Text>
@@ -191,8 +198,12 @@ export default function ConversationScreen({ route, navigation }) {
               <View style={styles.checkBoxContainer}>
                 <Checkbox
                   style={styles.checkbox}
-                  value={isChecked}
-                  onValueChange={setChecked}
+                  value={isChecked[2]}
+                  onValueChange={() => {
+                    const updated = [...isChecked];
+                    updated[2] = !isChecked[2]
+                    setChecked(updated)
+                  }}
                   color={isChecked ? '#9B870D' : undefined}
                 />
                 <Text style={styles.reminderButtonText}>Sleep soon!</Text>
@@ -202,8 +213,12 @@ export default function ConversationScreen({ route, navigation }) {
               <View style={styles.checkBoxContainer}>
                 <Checkbox
                   style={styles.checkbox}
-                  value={isChecked}
-                  onValueChange={setChecked}
+                  value={isChecked[3]}
+                  onValueChange={() => {
+                    const updated = [...isChecked];
+                    updated[3] = !isChecked[3]
+                    setChecked(updated)
+                  }}
                   color={isChecked ? '#9B870D' : undefined}
                 />
                 <Text style={styles.reminderButtonText}>Take a break</Text>
@@ -213,8 +228,12 @@ export default function ConversationScreen({ route, navigation }) {
               <View style={styles.checkBoxContainer}>
                 <Checkbox
                   style={styles.checkbox}
-                  value={isChecked}
-                  onValueChange={setChecked}
+                  value={isChecked[4]}
+                  onValueChange={() => {
+                    const updated = [...isChecked];
+                    updated[4] = !isChecked[4]
+                    setChecked(updated)
+                  }}
                   color={isChecked ? '#9B870D' : undefined}
                 />
                 <Text style={styles.reminderButtonText}>Eat a snack</Text>
@@ -234,6 +253,21 @@ export default function ConversationScreen({ route, navigation }) {
           </SafeAreaView>
         </Modal>
       </SafeAreaView>
+
+      {/* HABIT PET */}
+
+      <Pressable
+        onPress={() => {
+          navigation.navigate("HabitPetProfile", {});
+          // setSurveyModal(false);
+        }}
+      >
+        <Image
+          style={styles.habitPet}
+          source={require('../../assets/habit-pet-images/habit_pet.png')}
+        />
+      </Pressable>
+
       {messages && (
         // <Text>{JSON.stringify(messages)}</Text>
         <GiftedChat
@@ -261,7 +295,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "#FFFFFF",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -373,5 +407,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+  },
+  habitPet: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    top: -350,
+    right: 12,
+    zIndex: 1, //incase it gets covered by the chat
   },
 });
