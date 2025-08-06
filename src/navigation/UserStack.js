@@ -11,7 +11,7 @@ import FriendStory from "../screens/FriendStory";
 import AstrologyScreen from "../screens/AstrologyScreen";
 import MemoryScreen from "../screens/MemoryScreen";
 import EventScreen from "../screens/EventScreen"; //New component by Sona and Christian
-import StreaksPetProfile from "../screens/StreaksPetProfile";
+import HabitPetProfile from "../screens/HabitPetProfile";
 
 const Stack = createStackNavigator();
 
@@ -71,8 +71,8 @@ export default function App() {
           options={{ headerShown: true }}
         />
         <Stack.Screen
-          name="StreaksPetProfile"
-          component={StreaksPetProfile}
+          name="HabitPetProfile"
+          component={HabitPetProfile}
           options={{ headerShown: true }}
         />
       </Stack.Navigator>
