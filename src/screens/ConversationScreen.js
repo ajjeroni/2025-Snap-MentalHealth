@@ -49,6 +49,7 @@ export default function ConversationScreen({ route, navigation }) {
       setLoading(false);
       // console.log("USER", user);
     }
+    showToast();
   }, [user]);
 
   const showToast = () => {
@@ -192,10 +193,10 @@ export default function ConversationScreen({ route, navigation }) {
           navigation.navigate("HabitPetProfile", {});
         }}
       >
-        <Image
+        {/* <Image
           style={styles.habitPet}
           source={require('../../assets/habit-pet-images/habit_pet.png')}
-        />
+        /> */}
       </Pressable>
                   
     </SafeAreaView>
