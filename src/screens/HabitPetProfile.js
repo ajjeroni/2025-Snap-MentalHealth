@@ -1,161 +1,295 @@
-import { React, useState, useEffect, useCallback } from "react";
-import { StatusBar } from "expo-status-bar";
+import React from "react";
 import {
-    StyleSheet,
-    Platform,
-    Text,
-    SafeAreaView,
-    Modal,
-    Pressable,
-    View
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+const petBanner = require('../../assets/habit-pet-images/Group 93.png');
+const trophieIcon = require('../../assets/habit-pet-images/Trophy.png')
+const snapPlusIcon = require('../../assets/habit-pet-images/Image.png')
+const bobIcon = require('../../assets/habit-pet-images/image 7.png')
 
 export default function HabitPetProfile() {
-    const navigation = useNavigation();
-    const [showModal, setShowModal] = useState(true);
-    return (
-        <SafeAreaView style={styles.container}>
-            <Modal
-                visible={showModal}
-                // transparent={true}
-                transparent={false}
-                animationType="slide"
-                onRequestClose={() => setShowModal(false)}
-            >
-                <SafeAreaView style={styles.modalContainer}>
-                    <Text style={styles.modalHeader}>Welcome to your habit Pet!</Text>
+  const navigation = useNavigation();
 
-                    {/* habit Pet Placeholder */}
-                    <View style={styles.habitPet} />
+  return (
+    <SafeAreaView style={styles.safe}>
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.heroCard}>
+          <Image
+            source={petBanner}
+            style={styles.petImage}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={styles.chipsRow}>
+            <Chip>🐾 Lv 3</Chip>
+            <Chip>🌟 240/500 XP</Chip>
+            <Chip>🎂 Aug 5</Chip>
+            <Chip>♌ Leo</Chip>
+          </View>
 
-                    <Text style={styles.habitPetDescription}>Short description. Short description. Short description. Short description. Short description. Short description. Short description.</Text>
+        <SectionHeader title="Our Habit Pet" />
+        <View style={styles.card}>
+          <Image
+            source={trophieIcon}
+            style={{ width: 34, height: 34 }}
+            resizeMode="contain"
+          />
+          <View style={styles.cardLeft}>
+            <Text style={styles.cardTitle}>Current Quest</Text>
+            <Text style={styles.cardSub}>Stay Active!</Text>
+          </View>
+          <View style={styles.cardRight}>
+            <Pressable style={styles.smallBtn}>
+              <Text style={styles.smallBtnText}>Edit</Text>
+            </Pressable>
+            <Text style={styles.menuDot}>⋯</Text>
+          </View>
+        </View>
 
-                    {/* Capability Buttons */}
-                    <Pressable style={styles.capabilityBox}>
-                        <Text>Goal</Text>
-                    </Pressable>
+        <View style={[styles.card, styles.goldOutlineCard]}>
+          <View style={styles.snapIconBubble}>
+            <Image
+            source={snapPlusIcon}
+            style={{ width: 34, height: 34 }}
+            resizeMode="contain"
+          />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.cardTitle}>Snapchat+</Text>
+            <Text style={styles.cardSub}>Custom Bitmoji Pets and more!</Text>
+          </View>
+          <Pressable style={styles.infoBtn}>
+            <Text style={styles.infoBtnText}>More info</Text>
+          </Pressable>
+          <Text style={styles.chevron}>›</Text>
+        </View>
 
-                    {/* Action Buttons */}
-                    <Pressable
-                        style={styles.secondaryButton}
-                        onPress={() => {
-                            navigation.navigate("Conversation", {});
-                        }}
-                    >
-                        <Text style={styles.secondaryButtonText}>Take me back to chat</Text>
-                    </Pressable>
-                </SafeAreaView>
-            </Modal>
-        </SafeAreaView>
-    );
+        <SectionHeader title="Co-parent" />
+        <Pressable style={styles.rowItem}>
+          <Image
+            source={bobIcon}
+            style={styles.avatar}
+          />
+          <Text style={styles.rowText}>Bob Mosley</Text>
+          <Text style={styles.chevron}>›</Text>
+        </Pressable>
 
+        <SectionHeader title="Pet Missions" />
+
+        <Pressable style={[styles.missionItem, styles.missionCompleted, styles.goldOutlineCard]}>
+          <Text style={styles.missionText}>
+            Walk your pet with Bob for 100 steps 🐾
+          </Text>
+          <View style={styles.completedPill}>
+            <Text style={styles.completedPillText}>Completed</Text>
+          </View>
+        </Pressable>
+
+        <Pressable style={styles.missionItem}>
+          <Text style={styles.missionText}>
+            Snap Bob a plant you saw on your walk 🌿
+          </Text>
+        </Pressable>
+
+        <Pressable style={styles.missionItem}>
+          <Text style={styles.missionText}>
+            Tell Bob 2 things you noticed on your walk
+          </Text>
+        </Pressable>
+
+        <View style={{ height: 28 }} />
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
+const Chip = ({ children }) => (
+  <View style={styles.chip}>
+    <Text style={styles.chipText}>{children}</Text>
+  </View>
+);
+
+const SectionHeader = ({ title }) => (
+  <Text style={styles.sectionHeader}>{title}</Text>
+);
+
 const styles = StyleSheet.create({
-    habitPet:{
-        width: 250,
-        height: 250,
-        backgroundColor: "#ccc",
-        borderRadius: 12,
-        marginBottom: 24,
-    },
-    habitPetDescription:{
-        fontSize: 14,
-        color: "#666",
-        textAlign: "center",
-        marginBottom: 24,
-        marginHorizontal: 20,
-    },
-    container: {
-        flex: 1,
-        backgroundColor: "#FFFFFF",
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    },
-    modalContainer: {
-        flex: 1,
-        backgroundColor: "rgba(0,0,0,0.5)",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    modalText: {
-        backgroundColor: "#fff",
-        padding: 24,
-        borderRadius: 12,
-        fontSize: 18,
-        marginBottom: 16,
-        textAlign: "center",
-    },
-    modalButton: {
-        backgroundColor: "#007AFF",
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 8,
-    },
-    modalButtonText: {
-        color: "#fff",
-        fontWeight: "bold",
-        fontSize: 16,
-    },
-    modalHeader: {
-        fontSize: 18,
-        fontWeight: "bold",
-        backgroundColor: "#fff",
-        padding: 16,
-        borderRadius: 12,
-        marginBottom: 16,
-        textAlign: "center",
-    },
+  safe: {
+    flex: 1,
+    backgroundColor: "#F8EDEA", 
+  },
+  scroll: {
+    padding: 16,
+  },
 
-    imagePlaceholder: {
-        width: 100,
-        height: 100,
-        backgroundColor: "#ccc",
-        borderRadius: 12,
-        marginBottom: 24,
-    },
+  heroCard: {
+    borderRadius: 16,
+    height: 190,
+    padding: 12,
+    justifyContent: "flex-end",
+    overflow: "hidden",
+    // shadowColor: "#000",
+    // shadowOpacity: 0.08,
+    // shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  petImage: {
+    width: "110%",
+    height: "110%",
+    borderRadius: 32,
+    alignSelf: "center",
+  },
+  fab: {
+    position: "absolute",
+    top: 12,
+    backgroundColor: "rgba(255,255,255,0.9)",
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  fabIcon: { fontSize: 20 },
+  chipsRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  chip: {
+    backgroundColor: "rgba(255,255,255,0.6)", 
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 999,
+  },
+  chipText: { fontSize: 12, fontWeight: "600", color: "#5B5565" },
 
-    capabilityBox: {
-        backgroundColor: "#fff",
-        padding: 16,
-        borderRadius: 12,
-        width: "80%",
-        alignItems: "center",
-        marginVertical: 8,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 2,
-    },
+  sectionHeader: {
+    marginTop: 16,
+    marginBottom: 8,
+    fontSize: 16,
+    fontWeight: "800",
+    color: "#2F2A35",
+  },
+  sectionMiniHeader: {
+    marginTop: 18,
+    marginBottom: 8,
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#5B5565",
+  },
 
-    primaryButton: {
-        backgroundColor: "#007AFF",
-        paddingVertical: 12,
-        paddingHorizontal: 24,
-        borderRadius: 24,
-        marginTop: 24,
-    },
+  card: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 14,
+    padding: 14,
+    marginBottom: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 10,
+    elevation: 1,
+  },
+  goldOutlineCard: {
+    borderWidth: 2,
+    borderColor: '#FFD700', 
+  },
+  cardLeft: { flex: 1 },
+  cardRight: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  cardTitle: { fontSize: 14, fontWeight: "600", color: "#2F2A35" },
+  cardSub: { fontSize: 12, color: "#7B7484", marginTop: 2 },
 
-    primaryButtonText: {
-        color: "#fff",
-        fontWeight: "bold",
-        fontSize: 16,
-    },
+  smallBtn: {
+    backgroundColor: "#4BB4FF",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 10,
+  },
+  smallBtnText: { color: "white", fontWeight: "700", fontSize: 12 },
+  menuDot: { fontSize: 22, color: "#928A9B", marginLeft: 2 },
 
-    secondaryButton: {
-        backgroundColor: "#fff",
-        paddingVertical: 12,
-        paddingHorizontal: 24,
-        borderRadius: 24,
-        marginTop: 12,
-        borderWidth: 1,
-        borderColor: "#ccc",
-    },
+  infoBtn: {
+    backgroundColor: "#F1F6FF",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+  },
+  infoBtnText: { color: "#2C6BE4", fontWeight: "700", fontSize: 12 },
+  snapIconBubble: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: "#FFF3C4",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-    secondaryButtonText: {
-        color: "#333",
-        fontWeight: "600",
-        fontSize: 16,
-    },
+  rowItem: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 10,
+    elevation: 1,
+  },
+  avatar: { width: 32, height: 32, borderRadius: 16, backgroundColor: "#eee" },
+  rowText: { flex: 1, fontSize: 14, fontWeight: "600", color: "#2F2A35" },
+  chevron: { fontSize: 22, color: "#928A9B" },
+
+  missionItem: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    marginBottom: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 10,
+    elevation: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  missionCompleted: {
+    backgroundColor: "#ffe65cff",
+    borderWidth: 1,
+  },
+  missionText: { flex: 1, fontSize: 12, color: "#2F2A35", fontWeight: "600" },
+  completedPill: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 10,
+    backgroundColor: "#4BB4FF",
+  },
+  completedPillText: {
+    fontSize: 11,
+    fontWeight: "800",
+    color: "white",
+    textTransform: "capitalize",
+  },
 });
