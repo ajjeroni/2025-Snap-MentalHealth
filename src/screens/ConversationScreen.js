@@ -13,6 +13,7 @@ import BasicChatbot from "../chatbots/BasicChatbot";
 import { supabase } from "../utils/hooks/supabase";
 import { GiftedChat } from "react-native-gifted-chat";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
+import Toast from "react-native-toast-message";
 
 const CHATBOT_USER_OBJ = {
   // user you are trying to send a message to
@@ -44,7 +45,62 @@ export default function ConversationScreen({ route, navigation }) {
       setLoading(false);
       // console.log("USER", user);
     }
+    showToast();
   }, [user]);
+
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text1: "Bob",
+      text2: "accepted your Habit Pets request",
+      position: "top",
+    });
+  };
+
+  const toastConfig = {
+    success: ({ text1, text2, ...rest }) => (
+      <Pressable
+        onPress={() => {
+          Toast.hide();
+          navigation.navigate('HabitPetProfile');
+        }}
+        style={{
+          width: "90%",
+          backgroundColor: "#F5F5F7",
+          borderRadius: 16,
+          padding: 12,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          alignSelf: "center",
+          marginTop: -38,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3,
+          zIndex: 1,
+        }}
+      >
+        <Image
+          source={require("../../assets/snapchat/defaultprofile12.png")}
+          style={{ width: 40, height: 40, borderRadius: 20, marginRight: 12 }}
+        />
+        <View style={{ flex: 1 }}>
+          <Text style={{ fontWeight: "600", fontSize: 16, color: "#000" }}>
+            {text1}
+          </Text>
+          {text2 ? (
+            <Text style={{ fontSize: 14, color: "#555" }}>{text2}</Text>
+          ) : null}
+        </View>
+        <Image
+          source={require("../../assets/habit-pet-images/habit_pet.png")}
+          style={{ width: 40, height: 40, borderRadius: 20, marginLeft: 12 }}
+        />
+      </Pressable>
+    ),
+  };
 
   const makeChatbotComponent = (chatbotName) => {
     if (CHATBOTS[chatbotName]) {
@@ -126,6 +182,8 @@ export default function ConversationScreen({ route, navigation }) {
           renderUsernameOnMessage={true}
         />
       )}
+
+      <Toast config={toastConfig} position="top" topOffset={50} />
 
       {/* HABIT PET */}
       <Pressable
