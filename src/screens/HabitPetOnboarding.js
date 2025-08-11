@@ -1,3 +1,9 @@
+// HabitPetOnboarding: Onboarding screen introducing Habit Pets
+// Actions:
+// Primary button ("Pick out your reminders!") navigates/replaces to HabitPetSurvey;
+// Secondary ("Maybe later") navigates/replaces to Conversation.
+
+
 import { React, useState, useEffect, useCallback } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
@@ -21,6 +27,7 @@ export default function HabitPetOnboarding() {
   //   const [isChecked, setChecked] = useState([false, false, false, false, false]);
 
   return (
+    // Info Container
     <SafeAreaView style={styles.container}>
       <LinearGradient
         colors={['#FFFC78', '#FFC69F']}
