@@ -118,7 +118,7 @@ export default function HabitPetSurvey() {
           <Pressable
             style={styles.primaryButton}
             onPress={() => {
-              navigation.replace("HabitPetProfile", {});
+              navigation.replace("Conversation", {});
             }}
           >
             <Text style={styles.primaryButtonText}>
