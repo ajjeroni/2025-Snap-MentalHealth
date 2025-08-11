@@ -13,6 +13,7 @@ const petBanner = require('../../assets/habit-pet-images/Group 93.png');
 const trophieIcon = require('../../assets/habit-pet-images/Trophy.png')
 const snapPlusIcon = require('../../assets/habit-pet-images/Image.png')
 const bobIcon = require('../../assets/habit-pet-images/image 7.png')
+const editBannerButton = require('../../assets/habit-pet-images/Edit Button.png')
 
 export default function HabitPetProfile() {
   const navigation = useNavigation();
@@ -29,6 +30,13 @@ export default function HabitPetProfile() {
             style={styles.petImage}
             resizeMode="cover"
           />
+          <Pressable style={styles.heroBannerBtn}>
+            <Image
+              source={editBannerButton}
+              style={{ width: 32, height: 32 }}
+              resizeMode="contain"
+            />
+          </Pressable>
         </View>
         <View style={styles.chipsRow}>
             <Chip>🐾 Lv 3</Chip>
@@ -134,19 +142,21 @@ const styles = StyleSheet.create({
 
   heroCard: {
     borderRadius: 16,
-    height: 190,
+    height: 230,
+    // width: 420,
+    width: '100%',
     padding: 12,
-    justifyContent: "flex-end",
+    justifyContent: "flex",
     overflow: "hidden",
     // shadowColor: "#000",
     // shadowOpacity: 0.08,
     // shadowOffset: { width: 0, height: 6 },
-    shadowRadius: 12,
+    // shadowRadius: 12,
     elevation: 2,
   },
   petImage: {
-    width: "110%",
-    height: "110%",
+    width: "100%",
+    height: "100%",
     borderRadius: 32,
     alignSelf: "center",
   },
@@ -169,10 +179,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   chip: {
-    backgroundColor: "rgba(255,255,255,0.6)", 
+    backgroundColor: "transparent",
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 999,
+    borderWidth: .25,
+    borderColor: "grey"
   },
   chipText: { fontSize: 12, fontWeight: "600", color: "#5B5565" },
 
@@ -180,7 +192,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 8,
     fontSize: 16,
-    fontWeight: "800",
+    fontWeight: "700",
     color: "#2F2A35",
   },
   sectionMiniHeader: {
@@ -257,7 +269,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 1,
   },
-  avatar: { width: 32, height: 32, borderRadius: 16, backgroundColor: "#eee" },
+  avatar: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#eee" },
   rowText: { flex: 1, fontSize: 14, fontWeight: "600", color: "#2F2A35" },
   chevron: { fontSize: 22, color: "#928A9B" },
 
@@ -291,5 +303,15 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: "white",
     textTransform: "capitalize",
+  },
+  heroBannerBtn: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+    // backgroundColor: "rgba(255,255,255,0.85)",
+    borderRadius: 16,
+    padding: 4,
+    zIndex: 2,
+    elevation: 3,
   },
 });
