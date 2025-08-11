@@ -1,7 +1,8 @@
-// HabitPetOnboarding: Onboarding screen introducing Habit Pets
+// HabitPetSurvey: Screen allowing user to select a shared goal.
 // Actions:
-// Primary button ("Pick out your reminders!") navigates/replaces to HabitPetSurvey;
-// Secondary ("Maybe later") navigates/replaces to Conversation.
+// Choose an option ("Mindfulness") lets user choose a goal to focus on
+// Primary button ("Send your goals to Co-Parent") navigates/replaces to Conversation;
+// Secondary ("Back") navigates/replaces to HabitPetOnboarding.
 
 
 import { React, useState, useEffect, useCallback } from "react";
@@ -16,13 +17,14 @@ import {
   View
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Icon from 'react-native-vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Svg, Defs, RadialGradient, Stop, Circle } from 'react-native-svg';
 
 export default function HabitPetSurvey() {
   const navigation = useNavigation();
   const [selected, setSelected] = useState([]);
+
+  //options array
   const options = [
     {
       icon: require('../../assets/habit-pet-images/Bullseye.png'),
@@ -52,8 +54,8 @@ export default function HabitPetSurvey() {
   ]
 
   return (
-    // Info Container
     <SafeAreaView style={styles.container}>
+      {/* yellow-orange gradient background */}
       <LinearGradient
         colors={['#FFFC78', '#FFC69F']}
         start={{ x: 0, y: 0 }}
@@ -63,6 +65,7 @@ export default function HabitPetSurvey() {
       <SafeAreaView style={styles.container}>
 
         <View>
+          {/* White halo effect behind "Pick a Shared Goal" header */}
           <Svg style={styles.halo} pointerEvents="none" width={1800} height={1800}>
             <Defs>
               <RadialGradient id="haloGrad" cx="50%" cy="50%" r="50%">
@@ -78,6 +81,7 @@ export default function HabitPetSurvey() {
         <Text style={styles.header}>Pick a Shared Goal</Text>
         <Text style={styles.subHeader}>Choose one habit to work on together!</Text>
 
+        {/* Render options */}
         <View style={styles.optionContainer}>
           {options.map((option, index) => (
             <Pressable
@@ -109,7 +113,7 @@ export default function HabitPetSurvey() {
           ))}
         </View>
 
-        {/* Action Buttons */}
+        {/* Action Buttons !*/}
         <View style={styles.actionButtons}>
           <Pressable
             style={styles.primaryButton}
