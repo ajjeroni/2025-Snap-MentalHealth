@@ -73,7 +73,10 @@ export default function ChatScreen({ navigation }) {
             <TouchableOpacity
               style={styles.userButton}
               onPress={() => {
-                navigation.navigate("HabitPetOnboarding");
+                navigation.navigate("HabitPetOnboarding", {
+                  isChatbot: chat.isChatbot,
+                  chatId: chat.chatId,
+                });
               }}
               key={chat.chatId}
             >
