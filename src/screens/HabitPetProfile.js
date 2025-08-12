@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -9,6 +9,8 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { supabase } from "../utils/hooks/supabase";
+
 const petBanner = require('../../assets/habit-pet-images/Group 93.png');
 const trophieIcon = require('../../assets/habit-pet-images/Trophy.png')
 const snapPlusIcon = require('../../assets/habit-pet-images/Image.png')
@@ -17,6 +19,34 @@ const editBannerButton = require('../../assets/habit-pet-images/Edit Button.png'
 
 export default function HabitPetProfile() {
   const navigation = useNavigation();
+  const [selected, setSelected] = useState([]);
+  const [petMissions, setPetMissions] = useState([]);
+
+  // gameplan:
+  // fetch id, missions/tasks, & completion status from supabase
+  // update the mission completion in supabase (withint the on press) in map
+
+  useEffect(() => {
+    async function fetchPetMissions() {
+      try {
+        const { data, error } = await supabase
+          .from("petMissions")
+          .select("id, task, is_complete");
+        if (error) {
+          console.error("Error fetching pet missions:", error.message);
+          return;
+        }
+        if (data) {
+          console.log("Fetched pet missions:", data);
+          setPetMissions(data);
+          setSelected(data.map(m => m.is_complete));
+        }
+      } catch (error) {
+        console.error("Error fetching pet missions:", error.message);
+      }
+    }
+    fetchPetMissions();
+  }, []);
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -39,11 +69,11 @@ export default function HabitPetProfile() {
           </Pressable>
         </View>
         <View style={styles.chipsRow}>
-            <Chip>🐾 Lv 3</Chip>
-            <Chip>🌟 240/500 XP</Chip>
-            <Chip>🎂 Aug 5</Chip>
-            <Chip>♌ Leo</Chip>
-          </View>
+          <Chip>🐾 Lv 3</Chip>
+          <Chip>🌟 240/500 XP</Chip>
+          <Chip>🎂 Aug 5</Chip>
+          <Chip>♌ Leo</Chip>
+        </View>
 
         <SectionHeader title="Our Habit Pet" />
         <View style={styles.card}>
@@ -67,10 +97,10 @@ export default function HabitPetProfile() {
         <View style={[styles.card, styles.goldOutlineCard]}>
           <View style={styles.snapIconBubble}>
             <Image
-            source={snapPlusIcon}
-            style={{ width: 34, height: 34 }}
-            resizeMode="contain"
-          />
+              source={snapPlusIcon}
+              style={{ width: 34, height: 34 }}
+              resizeMode="contain"
+            />
           </View>
           <View style={{ flex: 1 }}>
             <Text style={styles.cardTitle}>Snapchat+</Text>
@@ -94,26 +124,37 @@ export default function HabitPetProfile() {
 
         <SectionHeader title="Pet Missions" />
 
-        <Pressable style={[styles.missionItem, styles.missionCompleted, styles.goldOutlineCard]}>
-          <Text style={styles.missionText}>
-            Walk your pet with Bob for 100 steps 🐾
-          </Text>
-          <View style={styles.completedPill}>
-            <Text style={styles.completedPillText}>Completed</Text>
-          </View>
-        </Pressable>
+        {petMissions.map((petMission, index) => (
+          <Pressable
+            key={petMission.id}
+            style={[
+              styles.missionItem,
+              selected[index] && styles.missionCompleted // highlight if selected
+            ]}
+            onPress={async () => {
+              const newSelected = [...selected];
+              newSelected[index] = !newSelected[index]; //toggle selection
+              setSelected(newSelected);
 
-        <Pressable style={styles.missionItem}>
-          <Text style={styles.missionText}>
-            Snap Bob a plant you saw on your walk 🌿
-          </Text>
-        </Pressable>
-
-        <Pressable style={styles.missionItem}>
-          <Text style={styles.missionText}>
-            Tell Bob 2 things you noticed on your walk
-          </Text>
-        </Pressable>
+              // Update mission completion in Supabase
+              const missionId = petMission.id;
+              const { error } = await supabase
+                .from("petMissions")
+                .update({ is_complete: newSelected[index] }) //updates the is_complete column
+                .eq("id", missionId);
+              if (error) {
+                console.error("Error updating mission:", error.message);
+              }
+            }}
+          >
+            <Text style={styles.missionText}>{petMission.task}</Text>
+            {selected[index] && (
+              <View style={styles.completedPill}>
+                <Text style={styles.completedPillText}>Completed</Text>
+              </View>
+            )}
+          </Pressable>
+        ))}
 
         <View style={{ height: 28 }} />
       </ScrollView>
@@ -134,7 +175,7 @@ const SectionHeader = ({ title }) => (
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: "#F8EDEA", 
+    backgroundColor: "#F8EDEA",
   },
   scroll: {
     padding: 16,
@@ -219,7 +260,7 @@ const styles = StyleSheet.create({
   },
   goldOutlineCard: {
     borderWidth: 2,
-    borderColor: '#FFD700', 
+    borderColor: '#FFD700',
   },
   cardLeft: { flex: 1 },
   cardRight: {
