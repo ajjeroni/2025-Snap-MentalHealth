@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   },
   goldOutlineCard: {
     borderWidth: 2,
-    borderColor: '#FFD700',
+    borderColor: '#c48100',
   },
   cardLeft: { flex: 1 },
   cardRight: {
