@@ -1,3 +1,9 @@
+// HabitPetProfile: Screen that displays user's habit pet info,
+// including:Current Quest, Co-Parent, & Pet Missions
+// Edit Button on Current Quest: redirects you to HabitPetSurvey
+// Pet Missions: connected to Supabase, click when you've completed a pet mission
+
+
 import { React, useEffect, useState } from "react";
 import {
   SafeAreaView,
@@ -87,7 +93,8 @@ export default function HabitPetProfile() {
             <Text style={styles.cardSub}>Stay Active!</Text>
           </View>
           <View style={styles.cardRight}>
-            <Pressable style={styles.smallBtn}>
+            <Pressable style={styles.smallBtn}
+            onPress={() => navigation.replace("HabitPetSurvey")}>
               <Text style={styles.smallBtnText}>Edit</Text>
             </Pressable>
             <Text style={styles.menuDot}>⋯</Text>
