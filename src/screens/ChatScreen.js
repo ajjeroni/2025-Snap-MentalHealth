@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 // import Ionicons from "react-native-vector-icons/Ionicons";
@@ -8,6 +8,7 @@ import { supabase } from "../utils/hooks/supabase"; // Import Supabase client
 
 import Header from "../components/Header";
 import { CHATBOTS } from "./ConversationScreen";
+const bobIcon = require("../../assets/habit-pet-images/image 7.png");
 
 export default function ChatScreen({ navigation }) {
   const [chats, setChats] = useState([]);
@@ -80,12 +81,13 @@ export default function ChatScreen({ navigation }) {
               }}
               key={chat.chatId}
             >
-              <Ionicons
-                style={styles.userIcon}
-                name="person-outline"
-                size={36}
-                color="lightgrey"
-              />
+              <View style={styles.userIconCircle}>
+                <Image
+                  source={bobIcon}
+                  style={styles.userIcon}
+                  resizeMode="contain"
+                />
+              </View>
               <Text style={styles.userName}> {chat.chatId} </Text>
               <Ionicons
                 style={styles.userCamera}
@@ -112,10 +114,22 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgrey",
     borderBottomWidth: 1,
   },
-  userIcon: {
+  userIconCircle: {
     position: "absolute",
     left: 5,
     top: 5,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    borderWidth: .75,
+    borderColor: 'grey', 
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+  },
+  userIcon: {
+    width: 40,
+    height: 37,
   },
   userName: {
     position: "absolute",
