@@ -94,7 +94,7 @@ export default function HabitPetProfile() {
           </View>
           <View style={styles.cardRight}>
             <Pressable style={styles.smallBtn}
-            onPress={() => navigation.replace("HabitPetSurvey")}>
+            onPress={() => navigation.navigate("HabitPetSurvey")}>
               <Text style={styles.smallBtnText}>Edit</Text>
             </Pressable>
             <Text style={styles.menuDot}>⋯</Text>
@@ -113,8 +113,8 @@ export default function HabitPetProfile() {
             <Text style={styles.cardTitle}>Snapchat+</Text>
             <Text style={styles.cardSub}>Custom Bitmoji Pets and more!</Text>
           </View>
-          <Pressable style={styles.infoBtn}>
-            <Text style={styles.infoBtnText}>More info</Text>
+          <Pressable style={styles.smallBtn}>
+            <Text style={styles.smallBtnText}>More info</Text>
           </Pressable>
           <Text style={styles.chevron}>›</Text>
         </View>
@@ -156,8 +156,8 @@ export default function HabitPetProfile() {
           >
             <Text style={styles.missionText}>{petMission.task}</Text>
             {selected[index] && (
-              <View style={styles.completedPill}>
-                <Text style={styles.completedPillText}>Completed</Text>
+              <View style={styles.smallBtn}>
+                <Text style={styles.smallBtnText}>Completed</Text>
               </View>
             )}
           </Pressable>
