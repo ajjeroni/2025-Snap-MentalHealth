@@ -45,7 +45,6 @@ export default function ConversationScreen({ route, navigation }) {
   const [conversations, setConversations] = useState([]);
   const [messages, setMessages] = useState([]);
   const selectedGoal = route?.params?.selectedGoal ?? null;
-  console.log('Chosen pet goal:', selectedGoal);
 
 
   useEffect(() => {
@@ -71,7 +70,7 @@ export default function ConversationScreen({ route, navigation }) {
       <Pressable
         onPress={() => {
           Toast.hide();
-          navigation.navigate('HabitPetProfile');
+          navigation.navigate('HabitPetProfile', { selectedGoal });
         }}
         style={{
           width: "90%",
