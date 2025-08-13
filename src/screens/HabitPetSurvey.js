@@ -22,7 +22,7 @@ import { Svg, Defs, RadialGradient, Stop, Circle } from 'react-native-svg';
 
 export default function HabitPetSurvey() {
   const navigation = useNavigation();
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState(null);
 
   //options array
   const options = [
@@ -86,15 +86,11 @@ export default function HabitPetSurvey() {
           {options.map((option, index) => (
             <Pressable
               key={index}
-              onPress={() => {
-                const newSelected = Array(options.length).fill(false);
-                newSelected[index] = true;
-                setSelected(newSelected);
-              }}
+              onPress={() => setSelected(index)}
             >
               <View style={[
                 styles.containerBox,
-                selected[index] && styles.selectedBox
+                selected === index && styles.selectedBox
               ]}>
                 <View style={styles.infoContainer}>
                   <Image style={styles.icon} source={option.icon} />
@@ -102,7 +98,7 @@ export default function HabitPetSurvey() {
                     <Text style={styles.infoSubtitle}>{option.subtitle}</Text>
                     <Text style={styles.infoText}>{option.text}</Text>
                   </View>
-                  {selected[index] && (
+                  {selected === index && (
                     <View style={styles.selectedBadge}>
                       <Text style={styles.selectedBadgeText}>Selected</Text>
                     </View>
@@ -118,7 +114,8 @@ export default function HabitPetSurvey() {
           <Pressable
             style={styles.primaryButton}
             onPress={() => {
-              navigation.replace("Conversation", {});
+              const selectedGoal = options[selected]?.subtitle;
+              navigation.replace("Conversation", { selectedGoal });
             }}
           >
             <Text style={styles.primaryButtonText}>
