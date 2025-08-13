@@ -14,6 +14,7 @@ import { supabase } from "../utils/hooks/supabase";
 import { GiftedChat } from "react-native-gifted-chat";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
 import Toast from "react-native-toast-message";
+const bobIcon = require('../../assets/habit-pet-images/image 7.png')
 
 
 const CHATBOT_USER_OBJ = {
@@ -23,16 +24,18 @@ const CHATBOT_USER_OBJ = {
   avatar: "",
 };
 export const CHATBOTS = {
-  BasicChatbot: {
+  Bob: {
     name: "React Native Chatbot",
-    imageUrl: "https://loremflickr.com/140/140",
+    // imageUrl: ''
+    avatar: bobIcon,
     component: BasicChatbot,
   },
-  Example: {
-    name: "React Native Chatbot",
-    imageUrl: "https://loremflickr.com/140/140",
-    component: BasicChatbot,
-  },
+  // Bob: {
+  //   name: "React Native Chatbot",
+  //   // imageUrl: "https://loremflickr.com/140/140",
+  //   avatar: "",
+  //   component: BasicChatbot,
+  // },
 };
 
 
