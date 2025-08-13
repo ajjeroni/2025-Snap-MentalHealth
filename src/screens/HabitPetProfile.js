@@ -14,7 +14,7 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { supabase } from "../utils/hooks/supabase";
 
 const petBanner = require('../../assets/habit-pet-images/Group 93.png');
@@ -27,6 +27,9 @@ export default function HabitPetProfile() {
   const navigation = useNavigation();
   const [selected, setSelected] = useState([]);
   const [petMissions, setPetMissions] = useState([]);
+  const route = useRoute();
+  const selectedGoal = route?.params?.selectedGoal ?? null;
+  // console.log("Selected goal, within Habit Pet profile", selectedGoal);
 
   // gameplan:
   // fetch id, missions/tasks, & completion status from supabase
@@ -37,7 +40,8 @@ export default function HabitPetProfile() {
       try {
         const { data, error } = await supabase
           .from("petMissions")
-          .select("id, task, is_complete");
+          .select("id, task, is_complete")
+          .eq('goal', selectedGoal); // filter by selected goal only
         if (error) {
           console.error("Error fetching pet missions:", error.message);
           return;

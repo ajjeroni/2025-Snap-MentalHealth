@@ -44,6 +44,7 @@ export default function ConversationScreen({ route, navigation }) {
   const [loading, setLoading] = useState(true);
   const [conversations, setConversations] = useState([]);
   const [messages, setMessages] = useState([]);
+  const selectedGoal = route?.params?.selectedGoal ?? null;
 
 
   useEffect(() => {
@@ -65,49 +66,49 @@ export default function ConversationScreen({ route, navigation }) {
   };
 
   const toastConfig = {
-  success: ({ text1, text2, ...rest }) => (
-    <Pressable
-      onPress={() => {
-        Toast.hide();
-        navigation.navigate('HabitPetProfile');
-      }}
-      style={{
-        width: "90%",
-        backgroundColor: "#F5F5F7",
-        borderRadius: 16,
-        padding: 12,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        alignSelf: "center",
-        marginTop: -38,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
-        zIndex: 1,
-      }}
-    >
-      <Image
-        source={require("../../assets/snapchat/defaultprofile12.png")}
-        style={{ width: 40, height: 40, borderRadius: 20, marginRight: 12 }}
-      />
-      <View style={{ flex: 1 }}>
-        <Text style={{ fontWeight: "600", fontSize: 16, color: "#000" }}>
-          {text1}
-        </Text>
-        {text2 ? (
-          <Text style={{ fontSize: 14, color: "#555" }}>{text2}</Text>
-        ) : null}
-      </View>
-      <Image
-        source={require("../../assets/habit-pet-images/habit_pet.png")}
-        style={{ width: 40, height: 40, borderRadius: 20, marginLeft: 12 }}
-      />
-    </Pressable>
-  ),
-};
+    success: ({ text1, text2, ...rest }) => (
+      <Pressable
+        onPress={() => {
+          Toast.hide();
+          navigation.navigate('HabitPetProfile', { selectedGoal });
+        }}
+        style={{
+          width: "90%",
+          backgroundColor: "#F5F5F7",
+          borderRadius: 16,
+          padding: 12,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          alignSelf: "center",
+          marginTop: -38,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3,
+          zIndex: 1,
+        }}
+      >
+        <Image
+          source={require("../../assets/snapchat/defaultprofile12.png")}
+          style={{ width: 40, height: 40, borderRadius: 20, marginRight: 12 }}
+        />
+        <View style={{ flex: 1 }}>
+          <Text style={{ fontWeight: "600", fontSize: 16, color: "#000" }}>
+            {text1}
+          </Text>
+          {text2 ? (
+            <Text style={{ fontSize: 14, color: "#555" }}>{text2}</Text>
+          ) : null}
+        </View>
+        <Image
+          source={require("../../assets/habit-pet-images/habit_pet.png")}
+          style={{ width: 40, height: 40, borderRadius: 20, marginLeft: 12 }}
+        />
+      </Pressable>
+    ),
+  };
   const makeChatbotComponent = (chatbotName) => {
     if (CHATBOTS[chatbotName]) {
       const Chatbot = CHATBOTS[chatbotName].component;
@@ -201,7 +202,7 @@ export default function ConversationScreen({ route, navigation }) {
           source={require('../../assets/habit-pet-images/habit_pet.png')}
         /> */}
       </Pressable>
-                  
+
     </SafeAreaView>
   );
 }
@@ -217,6 +218,6 @@ const styles = StyleSheet.create({
     height: 100,
     top: 12,
     right: 12,
-    zIndex: 1, 
+    zIndex: 1,
   },
 });
