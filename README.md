@@ -7,12 +7,12 @@
     <img src="https://static.vecteezy.com/system/resources/previews/018/930/704/non_2x/snapchat-logo-snapchat-icon-transparent-free-png.png" alt="Logo" width="180" height="180">
   </a>
 
-<h3 align="center">SnapChat Starter</h3>
+<h3 align="center">Habit Pets - Helping You, Help Yourself</h3>
 
   <p align="center">
-    SnapChat Starter
+    Helping You, Help Yourself
     <br />
-    <a href="https://github.com/tiffanielim/SnapChatStarterForkable"><strong>Explore this project»</strong></a>
+    <a href="https://github.com/tiffanielim/Snap-MentalHealth-HabitPets"><strong>Explore this project»</strong></a>
   </p>
 </div>
 
@@ -34,7 +34,6 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <!-- <li><a href="#license">License</a></li> -->
   </ol>
 </details>
 
@@ -42,7 +41,12 @@
 
 ## About The Project
 
-SnapChat Starter is a mobile app built with React Native and Supabase. It features user authentication, image uploads to a public "Spotlight" feed, an interactive map view, and a clean interface powered by Expo.
+Habit Pets is a React Native app feature built with Supabase that makes wellness social. Users share a virtual pet with a friend, and completing daily goals (like hydration or journaling) keeps the pet healthy.
+
+Supabase handles authentication and data storage, creating accountability and fun around self-care.
+<p align="center">
+<img width="900"  alt="habitPets" src="https://github.com/user-attachments/assets/d0c98f17-c6ec-4279-a6e3-c47649220e90" />
+</p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -67,19 +71,22 @@ To run this project locally, clone the repo and install the dependencies. This p
   ```bash
   npm install -g expo-cli
   ```
-  [Get started here](https://docs.expo.dev/get-started/installation/)
+  [Get started with Expo here](https://docs.expo.dev/get-started/installation/)
 - **Supabase Project**
   Create a free account at supabase.com, and set up:
   - Authentication (email/password)
   - Storage bucket named avatars
   - project URL and public key
+  - "conversations" table
+  - "petMissions" table with columns for "user_id", "task", "is_complete", and "goal"
+  [Get started with Supabase here](https://supabase.com/)
 
 ### Installation
 
 1. Clone the repo
    ```sh
    git clone https://github.com/github_username/repo_name.git
-   cd SnapChatStarterForkable
+   cd Snap-MentalHealth-HabitPets
    ```
 2. Install NPM packages
    ```sh
@@ -105,14 +112,13 @@ To run this project locally, clone the repo and install the dependencies. This p
 
 ## Usage
 
-This project serves as a starting point for building a chat application using React Native and Supabase. Currently, it includes:
+This project includes a wellness-focused feature called **Habit Pets**, designed to make self-care social and engaging.  
 
-- User login and signup via Supabase Auth  
-- Image uploads to "Spotlight" (stored in Supabase Storage)  
-- Project structure and basic navigation  
-- Components for real-time messaging and camera access
-
-🚧 *Note: Real-time messaging and camera access are planned but not yet implemented.*
+### Key Features
+- **Goal Selection**: Choose a wellness goal (mindfulness, staying active, connection, journaling, or hydration).  
+- **Buddy Pairing**: Pair with a friend for built-in accountability. You can also share a pet with a different friend.  
+- **Shared Pet Care**: Co-parent a pet with your buddy; progress from both friends contributes to the pet’s well-being.  
+- **Reminders**: Receive timely notifications that encourage task completion and consistent self-care. 
   
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
